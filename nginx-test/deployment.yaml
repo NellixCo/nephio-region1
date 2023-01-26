@@ -4,7 +4,7 @@ metadata: # kpt-merge: nginx/nginx-test
   name: nginx-test
   annotations:
     internal.kpt.dev/upstream-identifier: apps|Deployment|nginx|nginx-test
-  namespace: nginx
+  namespace: nginx-test
 spec:
   selector:
     matchLabels:
