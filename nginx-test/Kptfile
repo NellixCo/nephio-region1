@@ -1,0 +1,33 @@
+apiVersion: kpt.dev/v1
+kind: Kptfile
+metadata: # kpt-merge: /nginx-test
+  name: nginx-test
+  annotations:
+    config.kubernetes.io/local-config: "true"
+    internal.kpt.dev/upstream-identifier: kpt.dev|Kptfile|default|nginx-test
+upstream:
+  type: git
+  git:
+    repo: https://github.com/NellixCo/nephio-repo.git
+    directory: nginx
+    ref: nginx/v1
+upstreamLock:
+  type: git
+  git:
+    repo: https://github.com/NellixCo/nephio-repo.git
+    directory: nginx
+    ref: nginx/v1
+    commit: 95303b58dfe782c556a31dc87dc31c8ab078ac55
+info:
+  emails:
+  - kpt-team@google.com
+  description: nginx k8s package
+pipeline:
+  mutators:
+  - image: gcr.io/kpt-fn/set-namespace:v0.4.1
+    configPath: set-namespace.yaml
+  - image: gcr.io/kpt-fn/set-image:v0.1.1
+    configPath: set-image.yaml
+  validators:
+  - image: gcr.io/kpt-fn/kubeval:v0.3.0
+    configPath: kubeval-config.yaml
